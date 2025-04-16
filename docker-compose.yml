@@ -1,0 +1,94 @@
+# # version: '3.8'
+
+# # services:
+# #   app:
+# #     build:
+# #       context: .
+# #     ports:
+# #       - "5000:5000"
+# #     volumes:
+# #       - ./output:/app/output
+# #       - ./temp:/app/temp
+# #     environment:
+# #       - FLASK_ENV=production
+# #     restart: unless-stopped
+    
+# #   clickhouse:
+# #     image: clickhouse/clickhouse-server:latest
+# #     ports:
+# #       - "8123:8123"  # HTTP port
+# #       - "9000:9000"  # Native port
+# #     volumes:
+# #       - clickhouse_data:/var/lib/clickhouse
+# #       - ./clickhouse-config:/etc/clickhouse-server/config.d
+# #     environment:
+# #       - CLICKHOUSE_USER=default
+# #       - CLICKHOUSE_PASSWORD=default
+# #     restart: unless-stopped
+
+# # volumes:
+# #   clickhouse_data:
+# version: '3.8'
+
+# services:
+#   app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.backend
+#     ports:
+#       - "5000:5000"
+#     volumes:
+#       - ./output:/app/output
+#       - ./temp:/app/temp
+#     environment:
+#       - FLASK_ENV=production
+#     restart: unless-stopped
+#     depends_on:
+#       - clickhouse
+    
+#   clickhouse:
+#     image: clickhouse/clickhouse-server:latest
+#     ports:
+#       - "8123:8123"  # HTTP port
+#       - "9000:9000"  # Native port
+#     volumes:
+#       - clickhouse_data:/var/lib/clickhouse
+#     environment:
+#       - CLICKHOUSE_USER=default
+#       - CLICKHOUSE_PASSWORD=default
+#     restart: unless-stopped
+
+# volumes:
+#   clickhouse_data:
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./output:/app/output
+      - ./temp:/app/temp
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+    depends_on:
+      - clickhouse
+  
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    ports:
+      - "8123:8123"  # HTTP port
+      - "9000:9000"  # Native port
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    environment:
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=default
+    restart: unless-stopped
+
+volumes:
+  clickhouse_data:
